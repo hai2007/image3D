@@ -70,6 +70,7 @@
     };
 
     import QuickPaper from 'quick-paper';
+    import { isFunction } from '@hai2007/tool/type';
 
     export default {
         data() {
@@ -90,11 +91,11 @@
         methods: {
             openPage(pagename, doback) {
                 document.documentElement.scrollTop = 0;
-                if (!doback) window.location.href = "./index.html/#/" + pagename;
+                window.location.href = "./index.html#/" + pagename;
                 this.flag = pagename;
                 pages[pagename]().then(data => {
                     this.page = data.default;
-                    doback();
+                    if (isFunction(doback)) doback();
                 });
             }
         }

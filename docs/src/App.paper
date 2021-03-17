@@ -1,12 +1,4 @@
 <template>
-    <header>
-        <span>
-            image3D.js
-        </span>
-        <div>
-            Drawing three-dimensional images using webGL.
-        </div>
-    </header>
     <ul>
         <a href="https://github.com/hai2007/image3D" target="_blank">
             image3D.js
@@ -16,25 +8,25 @@
                 接口文档
             </span>
             <ul>
-                <li @click='doScroll("import")'>
+                <li @click='doScroll("api","import")'>
                     如何引入？
                 </li>
-                <li @click='doScroll("object")'>
+                <li @click='doScroll("api","object")'>
                     3D对象
                 </li>
-                <li @click='doScroll("painter")'>
+                <li @click='doScroll("api","painter")'>
                     画笔
                 </li>
-                <li @click='doScroll("data")'>
+                <li @click='doScroll("api","data")'>
                     数据传递
                 </li>
-                <li @click='doScroll("buffer")'>
+                <li @click='doScroll("api","buffer")'>
                     缓冲区
                 </li>
-                <li @click='doScroll("texture")'>
+                <li @click='doScroll("api","texture")'>
                     纹理
                 </li>
-                <li @click='doScroll("camera")'>
+                <li @click='doScroll("api","camera")'>
                     照相机
                 </li>
             </ul>
@@ -44,13 +36,13 @@
                 教程
             </span>
             <ul>
-                <li @click='doScroll("example1")'>
+                <li @click='doScroll("course","example1")'>
                     一个简单的例子
                 </li>
-                <li @click='doScroll("example2")'>
+                <li @click='doScroll("course","example2")'>
                     使用缓冲区
                 </li>
-                <li @click='doScroll("example3")'>
+                <li @click='doScroll("course","example3")'>
                     使用纹理
                 </li>
             </ul>
@@ -88,72 +80,31 @@
         },
         mounted() {
             let result = QuickPaper.urlFormat(window.location.href);
-            this.openPage(['api', 'course'].indexOf(result.router[0]) < 0 ? "api" : result.router[0]);
+            let routername = ['api', 'course'].indexOf(result.router[0]) < 0 ? "api" : result.router[0];
+            this.openPage(routername, () => {
+                if ('fixed' in result.params) {
+                    this.doScroll(routername, result.params.fixed);
+                }
+            });
         },
         methods: {
-            openPage(pagename) {
+            openPage(pagename, doback) {
                 document.documentElement.scrollTop = 0;
-                window.location.href = "#/" + pagename;
+                if (!doback) window.location.href = "./index.html/#/" + pagename;
                 this.flag = pagename;
                 pages[pagename]().then(data => {
                     this.page = data.default;
+                    doback();
                 });
             }
         }
     };
 </script>
 <style>
-    [quickpaper]>header {
-        display: inline-block;
-        border-style: solid;
-        border-width: 200px;
-        border-color: rgba(201, 208, 159, 0.4) transparent transparent rgba(201, 208, 159, 0.4);
-        font-size: 0;
-        width: 0;
-        height: 0;
-        position: fixed;
-        left: 0;
-        top: 0;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    [quickpaper]>header>span {
-        background-image: url('./assets/image3D.png');
-        background-position: left top;
-        width: 200px;
-        height: 200px;
-        display: inline-block;
-        position: fixed;
-        left: 0;
-        top: 0;
-        background-position: center center;
-        background-size: 70% auto;
-        background-repeat: no-repeat;
-    }
-
-    [quickpaper]>header>div {
-        position: fixed;
-        pointer-events: none;
-        width: 600px;
-        height: 40px;
-        line-height: 40px;
-        transform: rotate(-45deg);
-        transform-origin: center center;
-        top: 154px;
-        left: -104px;
-        display: inline-block;
-        font-size: 20px;
-        text-align: center;
-        z-index: 8;
-        background-color: #af5331;
-        color: white;
-    }
-
     [quickpaper]>ul {
         text-align: center;
         position: fixed;
-        right: 50px;
+        right: 20px;
         top: 70px;
         z-index: 7;
         background-color: white;
@@ -173,7 +124,7 @@
 
     [quickpaper]>ul>a {
         top: 30px;
-        width: 240px;
+        width: 180px;
         text-align: center;
         right: 0;
         color: #af5331;

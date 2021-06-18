@@ -4,14 +4,14 @@
 *
 * author 你好2007
 *
-* version 3.0.0
+* version 3.1.0
 *
 * build Thu Apr 11 2019
 *
 * Copyright hai2007 < https://hai2007.gitee.io/sweethome/ >
 * Released under the MIT license
 *
-* Date:Mon Mar 15 2021 11:15:25 GMT+0800 (GMT+08:00)
+* Date:Fri Jun 18 2021 11:46:20 GMT+0800 (中国标准时间)
 */
 
 'use strict';

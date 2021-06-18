@@ -6,12 +6,24 @@ import Matrix4 from '@hai2007/tool/Matrix4.js';
  */
 export default function (CORE, CONFIG) {
 
-    return function () {
+    return function (options = {}) {
 
         return new function Camera() {
 
+            // 压缩空间的范围
+            if (!('size' in options)) options.size = 1;
+
             // 摄像头位置改变和物体位置改变矩阵初始化
             let matrix4 = Matrix4();
+
+            // 应用压缩空间矩阵
+            let size = 1 / options.size;
+            matrix4.multiply([
+                size, 0, 0, 0,
+                0, size, 0, 0,
+                0, 0, size, 0,
+                0, 0, 0, 1
+            ]);
 
             /**
              * 摄像头位置改变

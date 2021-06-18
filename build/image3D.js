@@ -4,14 +4,14 @@
 *
 * author 你好2007
 *
-* version 3.0.0
+* version 3.1.0
 *
 * build Thu Apr 11 2019
 *
 * Copyright hai2007 < https://hai2007.gitee.io/sweethome/ >
 * Released under the MIT license
 *
-* Date:Mon Mar 15 2021 11:15:25 GMT+0800 (GMT+08:00)
+* Date:Fri Jun 18 2021 11:46:20 GMT+0800 (中国标准时间)
 */
 
 'use strict';
@@ -706,12 +706,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     function $Camera(CORE, CONFIG) {
 
         return function () {
+            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
 
             return new function Camera() {
                 var _this3 = this;
 
+                // 压缩空间的范围
+                if (!('size' in options)) options.size = 1;
+
                 // 摄像头位置改变和物体位置改变矩阵初始化
                 var matrix4 = Matrix4();
+
+                // 应用压缩空间矩阵
+                var size = 1 / options.size;
+                matrix4.multiply([size, 0, 0, 0, 0, size, 0, 0, 0, 0, size, 0, 0, 0, 0, 1]);
 
                 /**
                  * 摄像头位置改变

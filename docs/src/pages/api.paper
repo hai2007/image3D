@@ -10,7 +10,7 @@
         <a href="https://github.com/hai2007/image3D/blob/master/CHANGELOG" target='_blank'>更新日志</a>
         选择版本）：
     </p>
-    <pre q-code='html'><script src="https://cdn.jsdelivr.net/npm/image3d@3.0.0/build/image3D.min.js"></script></pre>
+    <pre q-code='html'><script src="https://cdn.jsdelivr.net/npm/image3d@3"></script></pre>
     <h3>
         NPM方式
     </h3>
@@ -221,10 +221,20 @@
     <h2 @click='doScroll("api","camera")' id='fixed-camera' class='canClick'>
         照相机
     </h2>
-    <pre q-code>var camera = image3d.Camera();</pre>
+    <pre q-code>var camera = image3d.Camera(options={});</pre>
     <p>
         改变相机或物体的相对位置或别的和怎么看相关的一些控制方法，都由一个矩阵来定义，我们不必直接操作这个矩阵，通过照相机这个对象，你会更容易去控制这一切。
     </p>
+    <h3>
+        投影设置
+    </h3>
+    <p>
+        我们在传递数据的时候，不能保证坐标的值一定在"-1 ~ 1"之间，你可以通过设置下面配置项来控制显示范围：
+    </p>
+    <pre q-code>
+// 默认1
+options.size = number;
+    </pre>
     <h3>
         物体的改变
     </h3>

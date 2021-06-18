@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../docs/image3D.png">
+    <script src="../../build/image3D.js"></script>
+    <title>照相机着色器 - 压缩空间大小 | 测试</title>
+    <!-- 顶点着色器 -->
+    <script type='x-shader/x-vertex' id='vs'>
+        attribute vec4 a_position;
+        uniform mat4 u_matrix;
+        void main(){
+            gl_Position=u_matrix * a_position;
+        }
+    </script>
+
+    <!-- 片段着色器 -->
+    <script type='x-shader/x-fragment' id='fs'>
+        void main(){
+            gl_FragColor=vec4(0.0,0.0,1.0,1.0);
+        }
+    </script>
+</head>
+
+<body>
+
+    <canvas width=500 height=500>非常抱歉，您的浏览器不支持canvas!</canvas>
+
+    <script>
+
+        // 创建3D对象并配置好画布和着色器
+        var image3d = new image3D(document.getElementsByTagName('canvas')[0], {
+            "vertex-shader": document.getElementById("vs").innerText,
+            "fragment-shader": document.getElementById("fs").innerText
+        });
+
+        // 点的坐标
+        image3d.Buffer().write(new Float32Array([
+
+            // 大正方形四个点
+            -7, 7,
+            7, 7,
+            7, -7,
+            -7, -7,
+
+            // 小正方形四个点
+            -0.2, 0.2,
+            0.2, 0.2,
+            0.2, -0.2,
+            -0.2, -0.2
+
+        ])).use('a_position', 2, 2, 0);
+
+        // 顶点索引数组
+        image3d.Buffer(true).write(new Uint8Array([
+
+            // 大正方形
+            0, 1, 2, 3,
+            // 小正方形
+            4, 5, 6, 7,
+            // 四个连线
+            0, 4, 1, 5, 2, 6, 3, 7
+
+        ]));
+
+        // 传递照相机
+        image3d.setUniformMatrix("u_matrix",
+
+            image3d.Camera({
+                size: 14
+            }).value()
+
+        )
+
+        image3d.Painter()
+
+            // 绘制
+
+            .elemLoopLine(0, 4, "byte").elemLoopLine(4, 4, "byte").elemLine(8, 8, "byte");
+
+    </script>
+
+</body>
+
+</html>

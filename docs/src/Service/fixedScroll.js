@@ -1,13 +1,11 @@
 import animation from '@hai2007/tool/animation';
-import QuickPaper from 'quick-paper';
 
-export default function () {
+export default function (fixed, overValue) {
 
-    let overValue = 0;
+    overValue = overValue || 60;
 
-    let element = document.documentElement;
+    let element = document.getElementById('root-view');
 
-    let fixed = QuickPaper.urlFormat(window.location.href).params.fixed;
     if (fixed) {
 
         // 获取滚动调整结点

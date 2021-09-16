@@ -1,187 +1,117 @@
 <template>
-    <ul>
-        <a href="https://github.com/hai2007/image3D" target="_blank">
-            image3D.js
-        </a>
-        <li :active='flag=="api"?"yes":"no"'>
-            <span @click='openPage("api")'>
-                接口文档
+    <header>
+        <span>image3D | Drawing three-dimensional images using webGL</span>
+        <nav>
+            <span @click='loadpage("api","no")' :active='url=="api"?"yes":"no"'>
+                文档
             </span>
-            <ul>
-                <li @click='doScroll("api","import")'>
-                    如何引入？
-                </li>
-                <li @click='doScroll("api","object")'>
-                    3D对象
-                </li>
-                <li @click='doScroll("api","painter")'>
-                    画笔
-                </li>
-                <li @click='doScroll("api","data")'>
-                    数据传递
-                </li>
-                <li @click='doScroll("api","buffer")'>
-                    缓冲区
-                </li>
-                <li @click='doScroll("api","texture")'>
-                    纹理
-                </li>
-                <li @click='doScroll("api","camera")'>
-                    照相机
-                </li>
-            </ul>
-        </li>
-        <li :active='flag=="course"?"yes":"no"'>
-            <span @click='openPage("course")'>
+            <span @click='loadpage("course","no")' :active='url=="course"?"yes":"no"'>
                 教程
             </span>
-            <ul>
-                <li @click='doScroll("course","example1")'>
-                    一个简单的例子
-                </li>
-                <li @click='doScroll("course","example2")'>
-                    使用缓冲区
-                </li>
-                <li @click='doScroll("course","example3")'>
-                    使用纹理
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <div>
-        <component :is='page' />
+            <span>
+                <a href="https://github.com/hai2007/image3D" target="_blank">GitHub</a>
+            </span>
+            <ui-search></ui-search>
+        </nav>
+    </header>
+    <div class='content'>
+        <component :is='page'></component>
     </div>
-    <footer>
-        Copyright © 2019-2021
-        <a href="https://hai2007.gitee.io/sweethome/" target="_blank">
-            hai2007 走一步，再走一步。
-        </a>
-        All rights reserved.
-        <br>
-        本项目由“你好2007”设计、开发和维护
-        <a href="#/core" class="core" target="_blank">查看核心</a>
-    </footer>
+    <ui-footer></ui-footer>
 </template>
 <script>
 
     let pages = {
         api: () => import('./pages/api.paper'),
-        course: () => import('./pages/course.paper')
+        course: () => import('./pages/course.paper'),
     };
-
-    import QuickPaper from 'quick-paper';
-    import { isFunction } from '@hai2007/tool/type';
 
     export default {
         data() {
             return {
                 page: null,
-                flag: ""
+                url: ""
             };
         },
         mounted() {
-            let result = QuickPaper.urlFormat(window.location.href);
-            let routername = ['api', 'course'].indexOf(result.router[0]) < 0 ? "api" : result.router[0];
-            this.openPage(routername, () => {
-                if ('fixed' in result.params) {
-                    this.doScroll(routername, result.params.fixed);
-                }
-            });
+            let routers = this.urlFormat(window.location.href).router;
+            this.loadpage(routers[0] in pages ? routers[0] : "api");
+
         },
         methods: {
-            openPage(pagename, doback) {
-                document.documentElement.scrollTop = 0;
-                window.location.href = "./index.html#/" + pagename;
-                this.flag = pagename;
-                pages[pagename]().then(data => {
+            loadpage(url, flag) {
+                pages[url]().then(data => {
+                    if (flag == 'no') window.location.href = "#/" + url;
+                    this.url = url;
                     this.page = data.default;
-                    if (isFunction(doback)) doback();
                 });
             }
         }
     };
 </script>
-<style>
-    [quickpaper]>ul {
-        text-align: center;
-        position: fixed;
-        right: 20px;
-        top: 70px;
-        z-index: 7;
-        background-color: white;
-        box-shadow: 0 0 6px 3px grey;
-    }
+<style lang="scss">
+    [quickpaper] {
+        &>header {
+            background-color: #fff;
+            border-bottom: 1px solid #eaecef;
+            height: 60px;
+            line-height: 60px;
+            padding-left: 80px;
+            padding-right: 10px;
+            background-image: url('./assets/logo.png');
+            background-size: auto 70%;
+            background-position: 20px center;
+            background-repeat: no-repeat;
+            white-space: nowrap;
 
-    [quickpaper]>ul>li>span {
-        background-color: rgb(211, 210, 210);
-        margin: 10px;
-        width: 120px;
-        height: 30px;
-        line-height: 30px;
-        color: white;
-        cursor: pointer;
-        display: block;
-    }
+            &>span {
+                font-family: cursive;
+                font-size: 20px;
+                font-weight: 200;
+            }
 
-    [quickpaper]>ul>a {
-        top: 30px;
-        width: 180px;
-        text-align: center;
-        right: 0;
-        color: #af5331;
-        font-size: 24px;
-        font-family: fantasy;
-        position: fixed;
-    }
+            &>nav {
+                position: absolute;
+                right: 30px;
+                top: 0;
+                z-index: 2;
 
-    [quickpaper]>ul>li>ul {
-        display: none;
-    }
+                &>span {
+                    margin-right: 10px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    padding: 0 10px;
+                    display: inline-block;
+                    vertical-align: top;
 
-    [quickpaper]>ul>li[active='yes']>span {
-        background-color: #af5325;
-    }
+                    &>a {
+                        position: relative;
+                        margin-right: 30px;
 
-    [quickpaper]>ul>li[active='yes']>ul {
-        display: block;
-    }
+                        &::after {
+                            position: absolute;
+                            background-image: url('./assets/link.png');
+                            background-repeat: no-repeat;
+                            content: " ";
+                            display: inline-block;
+                            width: 11px;
+                            height: 11px;
+                            top: 3px;
+                            right: -16px;
+                        }
 
-    [quickpaper]>ul>li>ul>li {
-        cursor: pointer;
-        padding: 5px 0;
-    }
+                    }
 
-    [quickpaper]>ul>li>ul>li:hover {
-        text-decoration: underline;
-    }
+                    &[active='yes'] {
+                        border-bottom: 2px solid red;
+                        font-weight: 800;
+                    }
 
-    [quickpaper]>div {
-        max-width: 1000px;
-        margin: auto;
-
-    }
-
-    [quickpaper]>footer {
-        text-align: center;
-        background-color: #fafafa;
-        border-top: 1px solid #d3d0d0;
-        line-height: 2em;
-        padding: 20px 0;
-        font-size: 14px;
-        position: relative;
-    }
-
-    [quickpaper]>footer>a {
-        padding: 0 5px;
-    }
-
-    [quickpaper]>footer>a.core {
-        position: absolute;
-        bottom: 36px;
-        right: 23px;
-        background: #ba642e;
-        color: white;
-        text-decoration: underline;
-        padding: 0 10px;
+                    &:hover {
+                        font-weight: 800;
+                    }
+                }
+            }
+        }
     }
 </style>

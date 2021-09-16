@@ -1,0 +1,38 @@
+<template>
+    <input placeholder="输入内容后回车查询" @keydown='goSearch' q-model='wd' />
+</template>
+<script>
+    export default {
+        data() {
+            return {
+                wd: ""
+            };
+        },
+        methods: {
+            goSearch(event) {
+
+                // 如果是回车就带着数据跳转到查询界面
+                if (event.keyCode == 13) this.loadPage("https://hai2007.gitee.io/sweethome/#/search?wd=" + encodeURIComponent(this.wd));
+
+            }
+        }
+    };
+</script>
+<style>
+    [quickpaper] {
+        display: inline-block;
+    }
+
+    input {
+        height: 30px;
+        border: none;
+        outline: none;
+        padding: 0 10px;
+        padding-right: 35px;
+        background-image: url('../assets/search.svg');
+        background-position: center right;
+        background-repeat: no-repeat;
+        border-radius: 3px;
+        background-color: rgb(243 240 240);
+    }
+</style>

@@ -1,44 +1,34 @@
 {
-  "name": "image3d.doc",
+  "name": "doc-for-image3d",
   "version": "0.1.0",
-  "description": "🍊 前端绘图工具库image3d官方文档",
+  "description": "Drawing three-dimensional images using webGL",
   "scripts": {
     "start": "npm install && npm run dev",
     "dev": "webpack-dev-server --config webpack.dev.js",
-    "build": "hai2007_nodejs -d ./dist && webpack --config webpack.prod.js"
-  },
-  "keywords": [
-    "image3d",
-    "doc"
-  ],
-  "author": "你好2007",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hai2007/image3D.git"
-  },
-  "dependencies": {
-    "@hai2007/polyfill": "0.1.1",
-    "@hai2007/style": "^0.2.3",
-    "@hai2007/tool": "^0.6.3",
-    "clunch": "^1.4.4",
-    "image3d": "^3.0.0",
-    "quick-paper": "^0.4.1"
+    "build": "hai2007_nodejs -d build && webpack --config webpack.prod.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@hai2007/algorithm": "^0.6.2",
     "@hai2007/nodejs": "^1.0.0",
-    "autoprefixer": "^9.7.1",
-    "babel-loader": "^8.1.0",
+    "autoprefixer": "^9.5.1",
+    "babel-loader": "^8.0.6",
     "css-loader": "^2.1.1",
-    "file-loader": "^4.2.0",
-    "postcss": "^8.2.10",
+    "file-loader": "^4.0.0",
+    "postcss": "^7.0.14",
     "postcss-loader": "^3.0.0",
-    "url-loader": "^2.2.0",
+    "url-loader": "^2.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "@hai2007/polyfill": "^0.1.1",
+    "@hai2007/style": "^0.2.3",
+    "clunch": "^1.4.4",
+    "open-web-editor": "^0.3.2",
+    "quick-paper": "^1.1.0"
   }
 }

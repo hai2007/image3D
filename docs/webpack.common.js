@@ -1,35 +1,34 @@
 const QuickPaperLoaderPlugin = require('quick-paper/loader-plug/index.js');
+const resolve = require('path').resolve;
 const pkg = JSON.parse(require('fs').readFileSync('./package.json'));
 
 module.exports = {
     entry: ['./src/entry.js'],
     output: {
         path: __dirname,
-        filename: 'dist/' + pkg.name + '@v' + pkg.version + '.js',
-        chunkFilename: 'dist/' + pkg.name + '@v' + pkg.version + '-bundle[name].js'
+        filename: 'build/main@v' + pkg.version + '.js'
     },
     module: {
         rules: [{
-            test: /\.paper$/,
-            loader: ['quick-paper/loader/index.js'],
-            exclude: /node_modules/
-        }, {
-            test: /\.css$/,
-            loader: ['quick-paper/style-loader/index.js', 'css-loader', 'postcss-loader']
-        }, {
             test: /\.js$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/
+            exclude: /node_modules/,
+            loader: "babel-loader"
         }, {
-            test: /\.(png|jpg|jpeg|gif|bmp)$/,
+            test: /\.paper$/,
+            exclude: /node_modules/,
+            loader: ['quick-paper/loader/index.js']
+        }, {
+            test: /\.(png|jpg|jpeg|gif|bmp|svg)$/,
             loader: [{
                 loader: "url-loader",
                 options: {
-                    name: "dist/[name].[ext]",
-                    context: "src/asset",
+                    name: "build/[name].[ext]",
                     limit: 5000
                 }
             }]
+        }, {
+            test: /\.(css|scss)$/,
+            loader: ['quick-paper/style-loader/index.js', 'css-loader', 'postcss-loader', './scss-loader.js']
         }]
     },
     plugins: [

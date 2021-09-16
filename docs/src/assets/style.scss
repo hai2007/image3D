@@ -1,0 +1,85 @@
+html {
+    font-size: 100px;
+}
+
+body {
+    font-size: .16rem;
+}
+
+div.doc-view {
+    &>header {
+        font-size: 26px;
+        padding: 30px 0;
+        font-weight: 800;
+    }
+
+    &>h2 {
+        font-size: 18px;
+    }
+}
+
+.link {
+    margin: 0 5px;
+}
+
+// 导航菜单页面
+
+.nav-view {
+    white-space: nowrap;
+
+    &>div {
+        display: inline-block;
+        vertical-align: top;
+        white-space: normal;
+        height: calc(100vh - 60px);
+        overflow: auto;
+
+        &.menu {
+            width: 240px;
+            padding: 20px 0;
+
+            // 标题
+            h3,
+            h4,
+            h5 {
+                padding-left: 7px;
+                line-height: 30px;
+            }
+
+            // 一级标题
+            h3 {
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 15px;
+            }
+
+            // 二级和三级标题
+            h4,
+            h5 {
+                font-size: 14px;
+                cursor: pointer;
+                font-weight: 400;
+            }
+
+            &>ul {
+                &>li>ul {
+                    margin-left: 20px;
+                }
+
+                ul {
+                    margin-left: 10px;
+                }
+            }
+
+        }
+
+        &.view {
+            width: calc(100vw - 240px);
+
+            &>div {
+                width: 700px;
+                margin: auto;
+            }
+        }
+    }
+}
